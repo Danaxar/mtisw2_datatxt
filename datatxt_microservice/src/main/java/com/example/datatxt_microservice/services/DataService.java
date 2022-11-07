@@ -36,6 +36,13 @@ public class DataService {
         return texto;
     }
 
+    public ArrayList<DataEntity> getAll(){
+        System.out.println("Ejecutando servicio crud data");
+        ArrayList<DataEntity> salida = (ArrayList<DataEntity>) dataRepository.findAll();
+        System.out.println("Hay: " + Integer.toString(salida.size()) + " datos.");
+        return salida;
+    }
+
     public ArrayList<DataEntity> leerBdByRut(String rut){
         return (ArrayList<DataEntity>) dataRepository.findDataEntitiesByRut(rut);
     }

@@ -23,6 +23,18 @@ public class DataController{
 
     static String info;
 
+    @GetMapping("/all")
+    public ResponseEntity<ArrayList<DataEntity>> getAll(){
+        System.out.println("Iniciando servicio externo data");
+        ArrayList<DataEntity> data = dataService.getAll();
+        if(data.isEmpty()){
+            System.out.println("No hay datos.");
+            return ResponseEntity.noContent().build();
+        }
+        System.out.println("Todo ok");
+        return ResponseEntity.ok(data);
+    }
+
     @PostMapping("/load")
     public ResponseEntity<String> load(@RequestParam("archivos") MultipartFile file){
         if(!(file.isEmpty())){
@@ -30,15 +42,14 @@ public class DataController{
             String salida = upload.save(file);  // Guardo el archivo
             System.out.println(salida);
             DataController.info = dataService.leerTxt("uploadFiles/DATA.txt");  // Leer el archivo
-            // Este proceso también guarda en la base de datos
             return ResponseEntity.ok(salida);
         }else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al cargar el archivo");
         }
     }
 
-    @GetMapping("/get-by-rut")
-    public ResponseEntity<ArrayList<DataEntity>> getByRut(String rut){
+    @GetMapping("/get-by-rut/{rut}")
+    public ResponseEntity<ArrayList<DataEntity>> getByRut(@PathVariable("rut") String rut){
         ArrayList<DataEntity> data = dataService.leerBdByRut(rut);
         if(data.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -46,8 +57,8 @@ public class DataController{
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/get-by-rut-and-fecha")
-    public ResponseEntity<ArrayList<DataEntity>> getByRutAndFecha(String rut, String fecha){
+    @GetMapping("/get-by-rut-and-fecha/{rut}/({fecha})")
+    public ResponseEntity<ArrayList<DataEntity>> getByRutAndFecha(@PathVariable("rut") String rut, @PathVariable("fecha") String fecha){
         ArrayList<DataEntity> data = dataService.leerBdByRutAndFecha(rut, fecha);
         if(data.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -56,7 +67,7 @@ public class DataController{
     }
 
     @GetMapping("/asistio")
-    public ResponseEntity<Boolean> asistio(String rut, String fecha){
+    public ResponseEntity<Boolean> asistio(@RequestParam("rut") String rut, @RequestParam("fecha") String fecha){
         if(dataService.asistioEmpleadoDia(rut, fecha)){
             return ResponseEntity.ok(true);
         }
