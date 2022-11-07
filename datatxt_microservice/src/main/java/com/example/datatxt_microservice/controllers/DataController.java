@@ -27,7 +27,6 @@ public class DataController{
             String salida = upload.save(file);  // Guardo el archivo
             System.out.println(salida);
             DataController.info = dataService.leerTxt("uploadFiles/DATA.txt");  // Leer el archivo
-            System.out.println("XD");
             // Este proceso también guarda en la base de datos
             return ResponseEntity.ok(salida);
         }else{
