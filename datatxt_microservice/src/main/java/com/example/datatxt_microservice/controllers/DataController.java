@@ -57,12 +57,16 @@ public class DataController{
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/get-by-rut-and-fecha/{rut}/({fecha})")
+    // Listo!
+    @GetMapping("/get-by-rut-and-fecha/{rut}/{fecha}")
     public ResponseEntity<ArrayList<DataEntity>> getByRutAndFecha(@PathVariable("rut") String rut, @PathVariable("fecha") String fecha){
-        ArrayList<DataEntity> data = dataService.leerBdByRutAndFecha(rut, fecha);
+        System.out.println("Iniciando controllador data original");
+        ArrayList<DataEntity> data = dataService.leerBdByRutAndFecha(rut, dataService.reformatFecha(fecha));
         if(data.isEmpty()){
+            System.out.println("No se encontraron datos.");
             return ResponseEntity.noContent().build();
         }
+        System.out.println("Todo ok.");
         return ResponseEntity.ok(data);
     }
 
