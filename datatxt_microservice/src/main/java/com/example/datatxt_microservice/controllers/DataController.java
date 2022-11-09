@@ -25,22 +25,22 @@ public class DataController{
 
     @GetMapping("/all")
     public ResponseEntity<ArrayList<DataEntity>> getAll(){
-        System.out.println("Iniciando servicio externo data");
+        //System.out.println("Iniciando servicio externo data");
         ArrayList<DataEntity> data = dataService.getAll();
         if(data.isEmpty()){
-            System.out.println("No hay datos.");
+            //System.out.println("No hay datos.");
             return ResponseEntity.noContent().build();
         }
-        System.out.println("Todo ok");
+        //System.out.println("Todo ok");
         return ResponseEntity.ok(data);
     }
 
     @PostMapping("/load")
     public ResponseEntity<String> load(@RequestParam("archivos") MultipartFile file){
         if(!(file.isEmpty())){
-            System.out.println("El archivo no es vacío");
+            //System.out.println("El archivo no es vacío");
             String salida = upload.save(file);  // Guardo el archivo
-            System.out.println(salida);
+            //System.out.println(salida);
             DataController.info = dataService.leerTxt("uploadFiles/DATA.txt");  // Leer el archivo
             return ResponseEntity.ok(salida);
         }else{
@@ -60,13 +60,13 @@ public class DataController{
     // Listo!
     @GetMapping("/get-by-rut-and-fecha/{rut}/{fecha}")
     public ResponseEntity<ArrayList<DataEntity>> getByRutAndFecha(@PathVariable("rut") String rut, @PathVariable("fecha") String fecha){
-        System.out.println("Iniciando controllador data original");
+        // System.out.println("Iniciando controllador data original");
         ArrayList<DataEntity> data = dataService.leerBdByRutAndFecha(rut, dataService.reformatFecha(fecha));
         if(data.isEmpty()){
-            System.out.println("No se encontraron datos.");
+            //System.out.println("No se encontraron datos de: " + rut);
             return ResponseEntity.noContent().build();
         }
-        System.out.println("Todo ok.");
+        //System.out.println("Todo ok. -> " + rut);
         return ResponseEntity.ok(data);
     }
 
