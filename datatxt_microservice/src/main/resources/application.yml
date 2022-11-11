@@ -2,10 +2,13 @@ spring:
   application:
     name: data-microservice
   datasource:
-    url:
-      jdbc:mysql://localhost:3306/datatxt
-    password: danielusach
-    username: root
+    # url:
+    #   jdbc:mysql://localhost:3306/datatxt
+    # password: danielusach
+    # username: root
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: create
