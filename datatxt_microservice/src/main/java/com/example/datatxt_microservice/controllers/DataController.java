@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -76,5 +77,19 @@ public class DataController{
             return ResponseEntity.ok(true);
         }
         return ResponseEntity.ok(false);
+    }
+
+    @GetMapping("/directory")
+    public ResponseEntity<Boolean> imprimirDirectorio(){
+        System.out.println("# Mostrando carpetas del directorio:");
+        String path = System.getProperty("user.dir");
+        File fObj = new File(path);
+        File archivos[] = fObj.listFiles();
+        for(int i = 0; i < archivos.length; i++){
+            if(archivos[i].isDirectory()){
+                System.out.println("./" + archivos[i].getName() + "     DIR");
+            }
+        }
+        return ResponseEntity.ok(true);
     }
 }
