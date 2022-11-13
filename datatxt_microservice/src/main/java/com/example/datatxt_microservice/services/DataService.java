@@ -32,6 +32,7 @@ public class DataService {
                 temp = temp + bfRead;
             }
             texto = temp;
+            bf.close();
         }catch (Exception e){System.out.println("No se ha podido leer el archivo");}
         return texto;
     }
